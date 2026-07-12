@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1C2333">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="大阪行程表">
 <title>大阪行程表 2026.08.23–08.29</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -128,18 +133,22 @@ body{
 .adjust-note b{color:#5E430A}
 
 /* ---------- 路線圖時間軸（signature） ---------- */
-.line{position:relative;margin-top:18px;padding-left:34px}
+.line{position:relative;margin-top:18px;padding-left:34px;counter-reset:stopnum}
 .line::before{
   content:"";position:absolute;left:11px;top:14px;bottom:14px;
   width:4px;border-radius:2px;background:var(--accent);opacity:.9;
 }
-.stop{position:relative;margin-bottom:6px}
+.stop{position:relative;margin-bottom:6px;counter-increment:stopnum}
 .stop .ring{
-  position:absolute;left:-34px;top:16px;
-  width:18px;height:18px;border-radius:50%;
-  background:#fff;border:4px solid var(--accent);
-  box-shadow:0 0 0 3px var(--paper);
+  position:absolute;left:-35px;top:14px;
+  width:22px;height:22px;border-radius:50%;
+  background:var(--accent);color:#fff;
+  border:3px solid var(--paper);
+  box-shadow:0 0 0 2px var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
 }
+.stop .ring::after{content:counter(stopnum)}
 .stop .card{
   background:var(--card);
   border:1px solid var(--hairline);
@@ -218,6 +227,39 @@ body{
 .lv.maybe{background:#FFF3D6;color:#8A6410}
 .lv.skip{background:#F4E4E3;color:#9C2F28}
 
+/* ---------- 預約待辦清單 ---------- */
+.todo-group{margin-top:14px}
+.todo-group h4{
+  font-size:13px;font-weight:700;letter-spacing:.06em;
+  color:var(--ink-soft);margin-bottom:6px;
+}
+.todo-group h4 .must{color:#9C2F28}
+.todo{
+  display:flex;align-items:flex-start;gap:10px;
+  background:var(--card);border:1px solid var(--hairline);border-radius:10px;
+  padding:11px 14px;margin-bottom:8px;cursor:pointer;
+}
+.todo input[type=checkbox]{
+  appearance:none;flex:none;
+  width:20px;height:20px;margin-top:1px;
+  border:2px solid var(--ink-soft);border-radius:6px;
+  cursor:pointer;position:relative;
+}
+.todo input[type=checkbox]:checked{background:var(--ink);border-color:var(--ink)}
+.todo input[type=checkbox]:checked::after{
+  content:"✓";position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:13px;font-weight:700;
+}
+.todo input[type=checkbox]:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.todo .tx{font-size:13.5px;line-height:1.55}
+.todo .tx b{font-weight:700}
+.todo .tx .when{
+  font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);
+}
+.todo:has(input:checked) .tx{color:var(--ink-soft);text-decoration:line-through}
+.todo-hint{font-size:12px;color:var(--ink-soft);margin-top:6px}
+
 /* ---------- 每日地圖 ---------- */
 .daymap{
   height:260px;
@@ -275,19 +317,19 @@ body{
     <span>主揪 · 陳家昕</span>
     <span>去程 SL396</span>
     <span>回程 D7379</span>
-    <span>大阪 · 京都 · 宇治</span>
+    <span>大阪 · 京都</span>
   </div>
 </header>
 
 <nav class="tabs" role="tablist" aria-label="行程日次">
   <button class="tab active" style="--accent:var(--ink)" data-panel="ov"><span class="dot"></span>總覽</button>
-  <button class="tab" style="--accent:var(--d1)" data-panel="d1"><span class="dot"></span>8/23</button>
-  <button class="tab" style="--accent:var(--d2)" data-panel="d2"><span class="dot"></span>8/24</button>
-  <button class="tab" style="--accent:var(--d3)" data-panel="d3"><span class="dot"></span>8/25</button>
-  <button class="tab" style="--accent:var(--d4)" data-panel="d4"><span class="dot"></span>8/26</button>
-  <button class="tab" style="--accent:var(--d5)" data-panel="d5"><span class="dot"></span>8/27</button>
-  <button class="tab" style="--accent:var(--d6)" data-panel="d6"><span class="dot"></span>8/28</button>
-  <button class="tab" style="--accent:var(--d7)" data-panel="d7"><span class="dot"></span>8/29</button>
+  <button class="tab" style="--accent:var(--d1)" data-panel="d1"><span class="dot"></span>第1天 8/23</button>
+  <button class="tab" style="--accent:var(--d2)" data-panel="d2"><span class="dot"></span>第2天 8/24</button>
+  <button class="tab" style="--accent:var(--d3)" data-panel="d3"><span class="dot"></span>第3天 8/25</button>
+  <button class="tab" style="--accent:var(--d4)" data-panel="d4"><span class="dot"></span>第4天 8/26</button>
+  <button class="tab" style="--accent:var(--d5)" data-panel="d5"><span class="dot"></span>第5天 8/27</button>
+  <button class="tab" style="--accent:var(--d6)" data-panel="d6"><span class="dot"></span>第6天 8/28</button>
+  <button class="tab" style="--accent:var(--d7)" data-panel="d7"><span class="dot"></span>第7天 8/29</button>
 </nav>
 
 <!-- ═══════════ 總覽 ═══════════ -->
@@ -309,11 +351,11 @@ body{
     </button>
     <button class="ov-item" style="--c:var(--d3)" data-goto="d3">
       <span class="badge">D3</span>
-      <span><span class="d">08/25 二</span><h3>移動日 → 道頓堀・心齋橋一次走完</h3><p>阪神難波線 30 分搬家，下午一直線步行串聯商圈</p></span>
+      <span><span class="d">08/25 二</span><h3>移動日 → 自由軒咖哩 → 道頓堀・心齋橋一次走完</h3><p>阪神難波線 30 分搬家，名物咖哩午餐後一直線步行串聯商圈</p></span>
     </button>
     <button class="ov-item" style="--c:var(--d4)" data-goto="d4">
       <span class="badge">D4</span>
-      <span><span class="d">08/26 三</span><h3>黑門市場 → 八阪神社・Bibi's → HARUKAS 夜景 → 力丸晚餐</h3><p>神社旁咖啡零繞路，看完日落回難波接燒肉</p></span>
+      <span><span class="d">08/26 三</span><h3>黑門市場 → MAZE 早午餐 → 八阪神社・Bibi's → 勝尾寺 → HARUKAS → 力丸晚餐</h3><p>整天一條御堂筋線南北走到底，市場旁早午餐、上山求勝運</p></span>
     </button>
     <button class="ov-item" style="--c:var(--d5)" data-goto="d5">
       <span class="badge">D5</span>
@@ -321,11 +363,11 @@ body{
     </button>
     <button class="ov-item" style="--c:var(--d6)" data-goto="d6">
       <span class="badge">D6</span>
-      <span><span class="d">08/28 五</span><h3>大阪城 → 梅田・grenier → 中崎町雙咖啡</h3><p>grenier 就在 HEP FIVE 旁，中崎町一站即達、兩店步行互通</p></span>
+      <span><span class="d">08/28 五</span><h3>大阪城 → grenier → HEP FIVE → 中崎町 OSA → とっとっと居酒屋</h3><p>先甜點再等 HEP 開門，晚上回難波炭火海鮮收尾（建議訂位）</p></span>
     </button>
     <button class="ov-item" style="--c:var(--d7)" data-goto="d7">
       <span class="badge">D7</span>
-      <span><span class="d">08/29 六</span><h3>MAZE 早午餐 → Le Premier → 傍晚航班回台</h3><p>20:55 起飛，最晚 17:15 出發赴機場</p></span>
+      <span><span class="d">08/29 六</span><h3>難波最終採買 → Le Premier 外帶 → 傍晚航班回台</h3><p>20:55 起飛，最晚 17:15 出發赴機場</p></span>
     </button>
   </div>
 
@@ -367,6 +409,31 @@ body{
     <p>本行程地鐵搭乘次數少（D4 全步行、D2 零通勤），且大阪城天守閣等設施未排入，周遊卡回不了本。</p>
   </div>
 
+  <h2 class="section-title">📋 預約與行前待辦</h2>
+  <p class="section-sub">依行程整理的預約清單，點擊可打勾追蹤（重新整理頁面會重置，建議完成後截圖留存）。</p>
+
+  <div class="todo-group">
+    <h4><span class="must">■</span> 必須事先購票</h4>
+    <label class="todo"><input type="checkbox"><span class="tx"><b>USJ 環球影城門票</b>（指定入場日 8/24）＋ Express Pass 快速通關<br><span class="when">D2 · 暑假熱門快速通關常提早售完，越早買越好</span></span></label>
+    <label class="todo"><input type="checkbox"><span class="tx"><b>HARUKAS 300 展望台門票</b>（8/26 傍晚 18:00 前後時段）<br><span class="when">D4 · 線上購票免現場排隊，日落時段最搶手</span></span></label>
+  </div>
+
+  <div class="todo-group">
+    <h4><span class="must">■</span> 強烈建議訂位</h4>
+    <label class="todo"><input type="checkbox"><span class="tx"><b>燒肉力丸 難波道頓堀店</b> — 8/26（三）19:45 晚餐<br><span class="when">D4 · 晚餐時段人多，看完 HARUKAS 夜景直接入座</span></span></label>
+    <label class="todo"><input type="checkbox"><span class="tx"><b>とっとっと 難波千日前店</b> — 8/28（五）18:00 晚餐<br><span class="when">D6 · 18:00 前後即客滿，人氣炭火海鮮居酒屋</span></span></label>
+  </div>
+
+  <div class="todo-group">
+    <h4>■ 行前確認</h4>
+    <label class="todo"><input type="checkbox"><span class="tx"><b>勝尾寺巴士時刻表</b>（箕面萱野 ⇄ 勝尾寺）<br><span class="when">D4 · 約每小時一班，去回程班次都先查好，錯過改計程車</span></span></label>
+    <label class="todo"><input type="checkbox"><span class="tx"><b>CINQS Hotel 行李寄放確認</b><br><span class="when">D3 提前寄放（15:00 前抵達）、D7 退房後寄放至傍晚取件</span></span></label>
+    <label class="todo"><input type="checkbox"><span class="tx"><b>ICOCA 開卡與儲值</b>（每人 ¥3,000–4,000 起）<br><span class="when">D1 · 抵達 KIX 後出關即辦，iPhone 錢包版可先在台灣設定</span></span></label>
+    <label class="todo"><input type="checkbox"><span class="tx"><b>中村藤吉本店：不接受預約</b>，早到領號碼牌<br><span class="when">D5 · 開店前抵達，領號後可先逛宇治，手機可查叫號進度</span></span></label>
+    <label class="todo"><input type="checkbox"><span class="tx"><b>京阪一日觀光券</b>（當天淀屋橋站購買即可，出發前查最新票價）<br><span class="when">D5 · 涵蓋淀屋橋⇄宇治⇄祇園全段</span></span></label>
+    <label class="todo"><input type="checkbox"><span class="tx"><b>回程航班線上報到</b> D7379（8/29 20:55 起飛）<br><span class="when">D7 · 通常起飛前 48 小時開放</span></span></label>
+  </div>
+
   <h2 class="section-title">八月下旬注意事項</h2>
   <div class="info-card">
     <h4>酷暑對策</h4>
@@ -406,7 +473,7 @@ body{
       <div class="card">
         <div class="t">14:00 – 17:00 <span class="tag">停留 3 小時</span></div>
         <h3>臨空 Premium Outlets</h3>
-        <div class="note">大件行李可放園區投幣置物櫃（大型櫃數量有限，建議一抵達先搶）。傍晚可順看關空對岸海景。</div>
+        <div class="note">大件行李可放園區投幣置物櫃（大型櫃數量有限，建議一抵達先搶）。傍晚可順看關空對岸海景。若入境排隊較久、晚於 14:30 才出關，直接縮短停留即可，17:00 出發的原則不變。</div>
       </div>
     </div>
 
@@ -477,7 +544,7 @@ body{
 <section class="panel" id="d3" style="--accent:var(--d3)">
   <div class="day-head">
     <div class="eyebrow">Day 3 · 08/25 Tue</div>
-    <h2>移動日・道頓堀＋心齋橋</h2>
+    <h2>移動日・自由軒咖哩・道頓堀＋心齋橋</h2>
     <p class="theme">阪神難波線 30 分完成搬家；下午章魚燒 → 道頓堀 → 心齋橋 → HARBS 呈一直線步行串聯，商圈一次走完。</p>
   </div>
 
@@ -507,7 +574,21 @@ body{
     </div>
 
     <div class="transit">
-      <div class="how"><span class="mode">🚶</span><span class="pill">步行</span><span class="dur">數分鐘</span><span class="fare">¥0</span></div>
+      <div class="how"><span class="mode">🚶</span><span class="pill">步行</span><span class="dur">約 7 分</span><span class="fare">¥0</span></div>
+      <div class="tip">自由軒在難波 3 丁目，飯店步行圈內。</div>
+    </div>
+
+    <div class="stop">
+      <span class="ring"></span>
+      <div class="card">
+        <div class="t">13:00 <span class="tag">午餐 · 11:00–19:35</span></div>
+        <h3>自由軒 難波本店（名物咖哩）</h3>
+        <div class="note">大阪最老洋食店之一，招牌「名物カレー」：乾式咖哩飯正中央臥一顆生蛋黃，整盤拌勻是靈魂吃法。復古昭和店裝，翻桌快、排隊不久。週一公休（今天週二 ✓）。</div>
+      </div>
+    </div>
+
+    <div class="transit">
+      <div class="how"><span class="mode">🚶</span><span class="pill">步行</span><span class="dur">約 7 分</span><span class="fare">¥0</span></div>
     </div>
 
     <div class="stop">
@@ -565,7 +646,7 @@ body{
     <div class="stop">
       <span class="ring"></span>
       <div class="card">
-        <div class="t">18:30</div>
+        <div class="t">18:30 <span class="tag">20:00 打烊</span></div>
         <h3>HARBS 心齋橋 Parco 店</h3>
         <div class="note">水果千層蛋糕當餐前甜點（人生順序自己定）。之後折返道頓堀吃晚餐、看霓虹全開的夜景，步行 3 分回飯店。</div>
       </div>
@@ -577,11 +658,11 @@ body{
 <section class="panel" id="d4" style="--accent:var(--d4)">
   <div class="day-head">
     <div class="eyebrow">Day 4 · 08/26 Wed</div>
-    <h2>黑門市場・咖啡巡禮・HARUKAS 夜景</h2>
-    <p class="theme">上午黑門市場配神社旁的 Bibi's 咖啡；午休避暑後御堂筋線直達天王寺看日落，回難波以力丸燒肉晚餐收尾。</p>
+    <h2>黑門市場・勝尾寺・HARUKAS 夜景</h2>
+    <p class="theme">整天沿著同一條御堂筋線南北走到底：黑門市場 → 旁邊的 MAZE 早午餐 → 八阪神社・Bibi's 甜點，中午北上箕面山勝尾寺求勝運，傍晚南下天王寺看日落，力丸燒肉晚餐收尾。</p>
   </div>
 
-  <div class="adjust-note">⚙ <b>行程已更新：</b>移除新世界通天閣；<b>力丸改為晚餐</b>（19:45，看完夜景剛好接上）；新增<b>Bibi's Cafe Bar</b>——就在難波八阪神社正旁邊，參拜完走 1 分鐘即達。</div>
+  <div class="adjust-note">⚙ <b>行程已更新：</b><b>MAZE CAFE 移入本日</b>（就在黑門市場旁一條街，步行 2 分）、<b>Le Premier 移回 Day 7</b>；每日咖啡廳維持兩間內（本日：MAZE＋Bibi's）。今天行程較滿，若體力不足，勝尾寺是最可彈性割捨的一段。</div>
 
   <div class="line">
     <div class="stop">
@@ -589,20 +670,34 @@ body{
       <div class="card">
         <div class="t">08:40 <span class="tag">09:00 開始營業</span></div>
         <h3>黑門市場</h3>
-        <div class="note">從飯店步行前往，開市即到搶第一輪：海膽、和牛串、現切水果。越晚越熱也越擠。</div>
+        <div class="note">從飯店步行前往，開市即到搶第一輪：海膽、和牛串、現切水果。小吃別吃太飽，等等還有早午餐。</div>
+      </div>
+    </div>
+
+    <div class="transit">
+      <div class="how"><span class="mode">🚶</span><span class="pill">步行</span><span class="dur">約 2 分</span><span class="fare">¥0</span></div>
+      <div class="tip">MAZE 就在黑門市場旁一條街（日本橋 1 丁目），純白外牆很好認。</div>
+    </div>
+
+    <div class="stop">
+      <span class="ring"></span>
+      <div class="card">
+        <div class="t">10:00 <span class="tag">☕ 週三 08:00–16:00</span></div>
+        <h3>MAZE CAFE MARKET（日本橋）</h3>
+        <div class="note">黑門市場旁的純白外牆早午餐咖啡廳，法式吐司與蛋糕都出色，季節限定草莓法式吐司建議加一球冰淇淋。座位不多，10 點前後較好入座。</div>
       </div>
     </div>
 
     <div class="transit">
       <div class="how"><span class="mode">🚇</span><span class="pill">千日前線</span><span class="dur">日本橋 → なんば 1 站 約 2 分</span><span class="fare">約 ¥190</span></div>
       <div class="how" style="margin-top:5px"><span class="mode">🚶</span><span class="pill alt">出站步行</span><span class="dur">約 6 分</span><span class="fare">¥0</span></div>
-      <div class="tip">黑門市場北口出來就是日本橋站入口。なんば站往南海方向出口出站，再步行約 6 分（神社周邊為住宅區，這已是最近的站）。完全不想走：計程車約 5 分、¥1,000 內。</div>
+      <div class="tip">MAZE 走回日本橋站入口約 3 分。なんば站往南海方向出口出站，再步行約 6 分（神社周邊為住宅區，這已是最近的站）。完全不想走：計程車約 5 分、¥1,000 內。</div>
     </div>
 
     <div class="stop">
       <span class="ring"></span>
       <div class="card">
-        <div class="t">10:20</div>
+        <div class="t">11:20</div>
         <h3>難波八阪神社</h3>
         <div class="note">巨大獅子頭殿是大阪最魔幻的打卡點，據說能吸走厄運、咬住好運。</div>
       </div>
@@ -616,28 +711,31 @@ body{
     <div class="stop">
       <span class="ring"></span>
       <div class="card">
-        <div class="t">10:50 <span class="tag">☕ 08:00–21:00</span></div>
+        <div class="t">11:45 <span class="tag">☕ 08:00–21:00</span></div>
         <h3>Bibi's Cafe Bar</h3>
-        <div class="note">難波八阪神社旁新開幕咖啡廳，早午餐盤與千層蛋糕都有。8 月為葡萄千層季節。注意：店規每人低消一杯飲品。</div>
+        <div class="note">難波八阪神社旁新開幕咖啡廳，招牌千層蛋糕（8 月為葡萄千層季節）配咖啡當甜點場。注意：店規每人低消一杯飲品。</div>
       </div>
     </div>
 
     <div class="transit">
-      <div class="how"><span class="mode">🚶</span><span class="pill">步行</span><span class="dur">約 10 分</span><span class="fare">¥0</span></div>
+      <div class="how"><span class="mode">🚇</span><span class="pill">御堂筋線直通北大阪急行</span><span class="dur">なんば → 箕面萱野（終點）約 40 分</span><span class="fare">約 ¥650</span></div>
+      <div class="how" style="margin-top:5px"><span class="mode">🚌</span><span class="pill alt">阪急巴士</span><span class="dur">往勝尾寺 約 20–30 分</span><span class="fare">約 ¥500–800</span></div>
+      <div class="tip">御堂筋線列車直通北大阪急行，坐到底不用轉乘。⚠ 往勝尾寺的巴士班次疏（約每小時一班），出發前務必先查好去回程時刻；錯過可改搭計程車（箕面萱野出發約 15 分）。巴士以 IC 卡付費。</div>
     </div>
 
     <div class="stop">
       <span class="ring"></span>
       <div class="card">
-        <div class="t">12:30 <span class="tag">中場休息</span></div>
-        <h3>回 CINQS Hotel 避暑午休</h3>
-        <div class="note">正午最熱時段回房吹冷氣，是夏日大阪的正確打開方式。16:30 再出發。</div>
+        <div class="t">14:00 – 15:30 <span class="tag">08:00–17:00</span></div>
+        <h3>勝尾寺（箕面）</h3>
+        <div class="note">「勝運達摩」名寺，滿山遍谷數千顆達摩不倒翁藏在每個角落。境內有免費集章明信片活動，邊蓋章邊把全境走完。山上林蔭較市區涼爽。門票約 ¥500。</div>
       </div>
     </div>
 
     <div class="transit">
-      <div class="how"><span class="mode">🚇</span><span class="pill">御堂筋線</span><span class="dur">なんば → 天王寺 約 7 分</span><span class="fare">約 ¥240</span></div>
-      <div class="tip">直達不轉乘。天王寺站與 HARUKAS 地下直通，全程免曬太陽。上樓前可先逛 HARUKAS 百貨或天王寺 MIO。</div>
+      <div class="how"><span class="mode">🚌</span><span class="pill alt">阪急巴士</span><span class="dur">勝尾寺 → 箕面萱野 約 20–30 分</span><span class="fare">–</span></div>
+      <div class="how" style="margin-top:5px"><span class="mode">🚇</span><span class="pill">北大阪急行直通御堂筋線</span><span class="dur">箕面萱野 → 天王寺 約 50 分</span><span class="fare">約 ¥750</span></div>
+      <div class="tip">同一條線一路向南直達天王寺，不用轉乘。約 17:10 抵達，天王寺站與 HARUKAS 地下直通，上樓前可先逛百貨吹冷氣。</div>
     </div>
 
     <div class="stop">
@@ -806,10 +904,10 @@ body{
   <div class="day-head">
     <div class="eyebrow">Day 6 · 08/28 Fri</div>
     <h2>大阪城・梅田・中崎町咖啡散步</h2>
-    <p class="theme">上午大阪城趁涼；中午梅田商圈＋grenier 千層酥；下午轉進一站之隔的中崎町老街，OSA 與 Ourlog 兩間咖啡步行串聯。</p>
+    <p class="theme">上午大阪城趁涼；梅田先吃 grenier 千層酥、再逛 HEP FIVE；下午轉進一站之隔的中崎町老街喝 OSA；晚上回難波以とっとっと居酒屋收尾。</p>
   </div>
 
-  <div class="adjust-note">⚙ <b>順序已優化：</b>HEP FIVE <b>11:00 才開門</b>，調整為「大阪城 → 阪急中央大廳 → HEP FIVE」無縫接上；新增 <b>grenier</b>（就在 HEP FIVE 旁的阪急 Grand Building 1F）與<b>中崎町雙咖啡</b>（OSA・Ourlog，兩店步行 4 分互達）。</div>
+  <div class="adjust-note">⚙ <b>行程已更新：</b>順序調整為 <b>grenier（10:00 開）→ HEP FIVE（11:00 開）</b>，先吃甜點剛好填補等開門的空檔；Ourlog 已移除，每日咖啡廳維持兩間內（本日：grenier＋OSA）；新增<b>とっとっと居酒屋晚餐</b>（難波千日前，18:00 前後即客滿，強烈建議先訂位）。</div>
 
   <div class="line">
     <div class="stop">
@@ -843,35 +941,36 @@ body{
 
     <div class="transit">
       <div class="how"><span class="mode">🚶</span><span class="pill">步行</span><span class="dur">約 5 分</span><span class="fare">¥0</span></div>
+      <div class="tip">grenier 在阪急 Grand Building 1F，中央大廳出來步行即達。</div>
     </div>
 
     <div class="stop">
       <span class="ring"></span>
       <div class="card">
-        <div class="t">11:00 <span class="tag">開門即入</span></div>
+        <div class="t">10:45 <span class="tag">☕ 10:00–20:00</span></div>
+        <h3>grenier 梅田店</h3>
+        <div class="note">人氣烤布蕾千層酥（brûlée mille-feuille）：表層焦糖脆殼＋整顆爆餡卡士達可頌。份量偏大，兩人分食剛好。剛開店人最少，吃完剛好等到 HEP FIVE 開門。</div>
+      </div>
+    </div>
+
+    <div class="transit">
+      <div class="how"><span class="mode">🚶</span><span class="pill">步行</span><span class="dur">1 分</span><span class="fare">¥0</span></div>
+      <div class="tip">HEP FIVE 就在 grenier 旁，出門即達。</div>
+    </div>
+
+    <div class="stop">
+      <span class="ring"></span>
+      <div class="card">
+        <div class="t">11:15 <span class="tag">11:00 開門</span></div>
         <h3>HEP FIVE</h3>
         <div class="note">紅色摩天輪地標。逛完可在梅田解決午餐（阪急 B1、Lucua 或 HEP 內餐廳）。</div>
       </div>
     </div>
 
     <div class="transit">
-      <div class="how"><span class="mode">🚶</span><span class="pill">步行</span><span class="dur">1 分</span><span class="fare">¥0</span></div>
-      <div class="tip">grenier 就在 HEP FIVE 旁的阪急 Grand Building 1F，出門即達。</div>
-    </div>
-
-    <div class="stop">
-      <span class="ring"></span>
-      <div class="card">
-        <div class="t">13:00 <span class="tag">☕ 10:00–20:00</span></div>
-        <h3>grenier 梅田店</h3>
-        <div class="note">人氣烤布蕾千層酥（brûlée mille-feuille）：表層焦糖脆殼＋整顆爆餡卡士達可頌。份量偏大，兩人分食剛好，留點胃給中崎町。</div>
-      </div>
-    </div>
-
-    <div class="transit">
       <div class="how"><span class="mode">🚇</span><span class="pill">谷町線</span><span class="dur">東梅田 → 中崎町 1 站 約 2 分</span><span class="fare">約 ¥190</span></div>
       <div class="how" style="margin-top:5px"><span class="mode">🚶</span><span class="pill alt">或步行</span><span class="dur">約 15 分</span><span class="fare">¥0</span></div>
-      <div class="tip">8 月午後建議搭一站省力。中崎町是昭和老屋改造的文青咖啡街區，出站即進入散步模式。</div>
+      <div class="tip">8 月午後建議搭一站省力。中崎町是昭和老屋改造的文青咖啡街區，出站即進入散步模式，OSA 之外的巷弄老屋店舖也都好拍。</div>
     </div>
 
     <div class="stop">
@@ -879,36 +978,48 @@ body{
       <div class="card">
         <div class="t">14:00 <span class="tag">☕ 10:00–18:00</span></div>
         <h3>OSA COFFEE（中崎町）</h3>
-        <div class="note">必點硬式布丁＋冰淇淋，奶香焦糖香十足。圍繞吧台的立食形式，部分座位有簡易欄杆可靠坐，節奏輕快不久留。</div>
-      </div>
-    </div>
-
-    <div class="transit">
-      <div class="how"><span class="mode">🚶</span><span class="pill">步行</span><span class="dur">約 4 分</span><span class="fare">¥0</span></div>
-      <div class="tip">往東北方向穿過中崎町巷弄即達，沿路老屋店舖都好拍。</div>
-    </div>
-
-    <div class="stop">
-      <span class="ring"></span>
-      <div class="card">
-        <div class="t">15:00 <span class="tag">☕ 10:00–19:00</span></div>
-        <h3>Ourlog Coffee Roasters（中崎町）</h3>
-        <div class="note">韓系咖啡廳，鹽麵包是招牌（抹茶鹽麵包有炸餡抹茶醬版本），店內自家烘豆、手沖平價可先試聞選豆。</div>
+        <div class="note">必點硬式布丁＋冰淇淋，奶香焦糖香十足。圍繞吧台的立食形式，部分座位有簡易欄杆可靠坐，節奏輕快不久留。喝完可在中崎町巷弄自由散步。</div>
       </div>
     </div>
 
     <div class="transit">
       <div class="how"><span class="mode">🚇</span><span class="pill">谷町線</span><span class="dur">中崎町 → 東梅田 1 站</span><span class="fare">約 ¥190</span></div>
       <div class="how" style="margin-top:5px"><span class="mode">🚇</span><span class="pill">御堂筋線</span><span class="dur">梅田 → なんば 約 9 分</span><span class="fare">約 ¥240</span></div>
-      <div class="tip">東梅田站步行轉乘御堂筋線梅田站約 5 分。回難波後把道頓堀夜景、想補買的藥妝一次收齊。</div>
+      <div class="tip">東梅田站步行轉乘御堂筋線梅田站約 5 分。回難波後把想補買的藥妝一次收齊。</div>
     </div>
 
     <div class="stop">
       <span class="ring"></span>
       <div class="card">
-        <div class="t">傍晚</div>
-        <h3>返回難波・最後採買之夜</h3>
-        <div class="note">今晚先把行李大致打包，明天輕鬆退房。</div>
+        <div class="t">16:30</div>
+        <h3>返回難波・最後採買</h3>
+        <div class="note">趁晚餐前把採買清單收掉，行李今晚先大致打包，明天輕鬆退房。</div>
+      </div>
+    </div>
+
+    <div class="transit">
+      <div class="how"><span class="mode">🚶</span><span class="pill">步行</span><span class="dur">飯店步行圈</span><span class="fare">¥0</span></div>
+      <div class="tip">とっとっと在難波 3 丁目（岸田ビル 3F），與 CINQS 同一個生活圈。</div>
+    </div>
+
+    <div class="stop">
+      <span class="ring"></span>
+      <div class="card">
+        <div class="t">18:00 <span class="tag">晚餐 · 建議訂位</span></div>
+        <h3>炭と海鮮と串焼きと肴 とっとっと 難波千日前店</h3>
+        <div class="note">炭火海鮮居酒屋，開放式廚房現烤，招牌是海鮮拼盤、帆立貝與超大飯糰。人氣店 18:00 前後就客滿——強烈建議事先訂位，或 17 點半開餐即入座。營業至 24:00。</div>
+      </div>
+    </div>
+
+    <div class="transit">
+      <div class="how"><span class="mode">🚶</span><span class="pill">步行</span><span class="dur">數分鐘</span><span class="fare">¥0</span></div>
+    </div>
+
+    <div class="stop">
+      <span class="ring"></span>
+      <div class="card">
+        <div class="t">20:30</div>
+        <h3>返回 CINQS Hotel</h3>
       </div>
     </div>
   </div>
@@ -918,8 +1029,8 @@ body{
 <section class="panel" id="d7" style="--accent:var(--d7)">
   <div class="day-head">
     <div class="eyebrow">Day 7 · 08/29 Sat</div>
-    <h2>咖啡收尾・傍晚航班回台</h2>
-    <p class="theme">MAZE 早午餐開場、Le Premier 外帶咖啡收尾（就在南海難波旁，順路零繞行），17:15 出發赴機場。</p>
+    <h2>難波收尾・傍晚航班回台</h2>
+    <p class="theme">上午自由採買，Le Premier 外帶一杯當旅程最後的咖啡（就在取行李的順路上），17:15 出發赴機場。</p>
   </div>
 
   <div class="adjust-note">⚙ <b>航班已更正：</b>回程 D7379 為 <b>08/29 20:55 起飛、23:05 抵達桃園</b>（當天抵台，非紅眼）。自由活動時間相應縮短，最晚 <b>17:15 從南海難波出發</b>。</div>
@@ -935,41 +1046,27 @@ body{
     </div>
 
     <div class="transit">
-      <div class="how"><span class="mode">🚶</span><span class="pill">步行</span><span class="dur">約 15 分</span><span class="fare">¥0</span></div>
-      <div class="how" style="margin-top:5px"><span class="mode">🚇</span><span class="pill alt">或千日前線</span><span class="dur">なんば → 日本橋 1 站</span><span class="fare">約 ¥190</span></div>
-    </div>
-
-    <div class="stop">
-      <span class="ring"></span>
-      <div class="card">
-        <div class="t">10:30 <span class="tag">☕ 週六 08:00–16:00</span></div>
-        <h3>MAZE CAFE MARKET（日本橋）</h3>
-        <div class="note">黑門市場旁的純白外牆早午餐咖啡廳，法式吐司與蛋糕都出色，季節限定草莓法式吐司建議加一球冰淇淋。座位不多，避開正午尖峰較好入座。</div>
-      </div>
-    </div>
-
-    <div class="transit">
       <div class="how"><span class="mode">🚶</span><span class="pill">步行</span><span class="dur">難波周邊</span><span class="fare">¥0</span></div>
     </div>
 
     <div class="stop">
       <span class="ring"></span>
       <div class="card">
-        <div class="t">12:00 – 15:30 <span class="tag">自由活動</span></div>
+        <div class="t">10:30 – 15:30 <span class="tag">自由活動</span></div>
         <h3>難波最終巡禮</h3>
-        <div class="note">最後採買時間：Bic Camera／驚安殿堂補貨、難波 Parks 空中花園，或把沒吃到的口袋名單收掉。</div>
+        <div class="note">最後採買時間：Bic Camera／驚安殿堂補貨、難波 Parks 空中花園，午餐把沒吃到的口袋名單收掉。15:30 往 Le Premier 方向移動。</div>
       </div>
     </div>
 
     <div class="transit">
       <div class="how"><span class="mode">🚶</span><span class="pill">步行</span><span class="dur">約 8 分</span><span class="fare">¥0</span></div>
-      <div class="tip">Le Premier 在 JR 難波旁的巷內（ルネッサ難波ビル 1F），距南海難波與飯店都在步行圈。</div>
+      <div class="tip">Le Premier 在 JR 難波旁的巷內（ルネッサ難波ビル 1F），距南海難波與飯店都在步行圈，取行李的順路上。</div>
     </div>
 
     <div class="stop">
       <span class="ring"></span>
       <div class="card">
-        <div class="t">15:45 <span class="tag">☕ 10:00–18:00</span></div>
+        <div class="t">15:45 <span class="tag">☕ 10:00–18:00 外帶</span></div>
         <h3>Le Premier Cafe Roastery（外帶）</h3>
         <div class="note">難波平價自家烘豆外帶咖啡窗口，人氣是霜淇淋版阿芙佳朵。旅程最後一杯，帶著上路剛剛好。</div>
       </div>
@@ -1041,6 +1138,7 @@ const DAY_SPOTS = {
   d3:[
     {n:"Singulari 天空水療飯店", lat:34.6682, lng:135.4392, q:"THE SINGULARI HOTEL & SKYSPA AT UNIVERSAL STUDIOS JAPAN"},
     {n:"CINQS Hotel", lat:34.6632, lng:135.4993, q:"CINQS Hotel 大阪"},
+    {n:"自由軒 難波本店", lat:34.6663, lng:135.5024, q:"自由軒 難波本店"},
     {n:"章魚燒 十八番", lat:34.6687, lng:135.5022, q:"たこ焼 十八番 道頓堀店"},
     {n:"道頓堀（戎橋）", lat:34.6687, lng:135.5013, q:"道頓堀 グリコサイン"},
     {n:"心齋橋筋商店街", lat:34.6725, lng:135.5010, q:"心斎橋筋商店街"},
@@ -1049,8 +1147,10 @@ const DAY_SPOTS = {
   d4:[
     {n:"CINQS Hotel", lat:34.6632, lng:135.4993, q:"CINQS Hotel 大阪"},
     {n:"黑門市場", lat:34.6654, lng:135.5062, q:"黒門市場"},
+    {n:"MAZE CAFE MARKET", lat:34.6663, lng:135.5057, q:"MAZE CAFE MARKET 大阪"},
     {n:"難波八阪神社", lat:34.6616, lng:135.4967, q:"難波八阪神社"},
     {n:"Bibi's Cafe Bar", lat:34.6616, lng:135.4976, q:"Bibi's Cafe Bar 大阪"},
+    {n:"勝尾寺", lat:34.8658, lng:135.4911, q:"勝尾寺 箕面"},
     {n:"HARUKAS 300 展望台", lat:34.6459, lng:135.5136, q:"ハルカス300展望台"},
     {n:"燒肉力丸 難波道頓堀店", lat:34.6686, lng:135.5012, q:"焼肉力丸 難波道頓堀店"}
   ],
@@ -1065,14 +1165,13 @@ const DAY_SPOTS = {
   d6:[
     {n:"大阪城公園", lat:34.6873, lng:135.5262, q:"大阪城天守閣"},
     {n:"阪急梅田 中央大廳", lat:34.7025, lng:135.4988, q:"阪急百貨うめだ本店"},
-    {n:"HEP FIVE", lat:34.7040, lng:135.5004, q:"HEP FIVE"},
     {n:"grenier 梅田店", lat:34.7035, lng:135.4992, q:"grenier 梅田"},
+    {n:"HEP FIVE", lat:34.7040, lng:135.5004, q:"HEP FIVE"},
     {n:"OSA COFFEE", lat:34.7089, lng:135.5047, q:"OSA COFFEE 中崎町"},
-    {n:"Ourlog Coffee Roasters", lat:34.7111, lng:135.5069, q:"Ourlog Coffee Roasters 大阪"}
+    {n:"とっとっと 難波千日前店", lat:34.6668, lng:135.5018, q:"炭と海鮮と串焼きと肴 とっとっと 難波千日前店"}
   ],
   d7:[
     {n:"CINQS Hotel", lat:34.6632, lng:135.4993, q:"CINQS Hotel 大阪"},
-    {n:"MAZE CAFE MARKET", lat:34.6663, lng:135.5057, q:"MAZE CAFE MARKET 大阪"},
     {n:"Le Premier Cafe Roastery", lat:34.6648, lng:135.4953, q:"Le Premier 難波"},
     {n:"南海難波站", lat:34.6620, lng:135.5024, q:"南海難波駅"},
     {n:"關西國際機場 KIX", lat:34.4342, lng:135.2441, q:"関西国際空港"}
